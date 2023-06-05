@@ -4,76 +4,89 @@
  * - Animations on https://www.mixamo.com/
  * - https://github.com/resonantdoghouse/threejs-dance
  */
-import { Suspense, useEffect } from "react";
-import * as THREE from "three";
-import { Canvas, GroupProps, useLoader } from "@react-three/fiber";
-// @ts-ignore
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
-// @ts-ignore
-import { FBXLoader } from "three/addons/loaders/FBXLoader";
-import { Environment, OrbitControls, useAnimations } from "@react-three/drei";
+import { Environment, OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { useControls } from "leva";
+import { Suspense } from "react";
+import { Vector3Tuple } from "three";
+import { useLocalStorage } from "usehooks-ts";
 import "./App.css";
+import Avatar, { AvatarProps } from "./Avatar";
+import DiscoBall from "./DiscoBall";
+import Scene from "./Scene";
 
-const animationGroup = new THREE.AnimationObjectGroup();
-const mixer = new THREE.AnimationMixer(animationGroup);
-
-function filterAnimation(animation: any) {
-  animation.tracks = animation.tracks.filter((track) => {
-    const name = track.name;
-    return name.endsWith("Hips.position") || name.endsWith(".quaternion");
-  });
-  return animation;
-}
-
-const Han = (props: GroupProps) => {
-  const obj = useLoader(GLTFLoader, "models/han.glb");
-
-  const animationObject = useLoader(GLTFLoader, "animations/standing.glb");
-  const { ref, actions, names } = useAnimations(animationObject.animations);
-  useEffect(() => {
-    actions[names[0]].play();
-  }, []);
-
-  return (
-    <group ref={ref} {...props}>
-      <primitive object={obj.scene} />
-    </group>
-  );
+type CameraState = {
+  position: Vector3Tuple;
 };
-
-const Baptiste = (props: GroupProps) => {
-  const obj = useLoader(GLTFLoader, "models/baptiste.glb");
-
-  // TODO Make Mixamo dance work
-  // const animationObject = useLoader(
-  //   FBXLoader,
-  //   "animations/Capoeira.fbx",
-  //   (model) => animationGroup.add(model)
-  // );
-
-  // console.log("animationObject", animationObject);
-  // console.log("obj", obj);
-
-  // useEffect(() => {
-  //   const clip = filterAnimation(animationObject.animations[0]);
-  //   const action = mixer.clipAction(clip);
-  //   action.play();
-  // }, []);
-
-  return (
-    <group {...props}>
-      <primitive object={obj.scene} />
-    </group>
-  );
-};
+const ANIMATIONS: AvatarProps["animation"][] = [
+  "capoeira",
+  "flair",
+  "hip-hop-dancing",
+  "robot-hip-hop",
+  "silly-dancing",
+  "thriller",
+];
 
 export default function App() {
+  const [cameraState, setCameraState] = useLocalStorage<CameraState>("camera", {
+    position: [3, 10, 12],
+  });
+  const positions = useControls("Positions", {
+    Baptiste: [1, 0, -1],
+    Thibault: [-1, 0, -1],
+    Han: [0, 0, 0],
+    Floor: [0, 0, 0],
+    DiscoBall: [0, 3, 0],
+  });
+  const animations = useControls("Animations", {
+    Baptiste: {
+      value: "thriller",
+      options: ANIMATIONS,
+    },
+    Thibault: {
+      value: "hip-hop-dancing",
+      options: ANIMATIONS,
+    },
+    Han: {
+      value: "silly-dancing",
+      options: ANIMATIONS,
+    },
+  });
+
   return (
-    <Canvas>
+    <Canvas camera={{ fov: 30, ...cameraState }}>
       <Suspense fallback={null}>
-        <Han position={[0, 0, 0]} />
-        <Baptiste position={[1, 0, -1]} />
-        <OrbitControls />
+        <Avatar
+          key={animations.Han}
+          model="han"
+          position={positions.Han}
+          animation={animations.Han as AvatarProps["animation"]}
+        />
+        <Avatar
+          key={animations.Baptiste}
+          model="baptiste"
+          position={positions.Baptiste}
+          animation={animations.Baptiste as AvatarProps["animation"]}
+        />
+        <Avatar
+          key={animations.Thibault}
+          model="thibault"
+          position={positions.Thibault}
+          animation={animations.Thibault as AvatarProps["animation"]}
+        />
+        <Scene position={positions.Floor} />
+        <DiscoBall position={positions.DiscoBall} />
+        <OrbitControls
+          onChange={(e) => {
+            if (e) {
+              setCameraState({
+                position: Object.values(
+                  e.target.object.position
+                ) as Vector3Tuple,
+              });
+            }
+          }}
+        />
         <Environment preset="sunset" background />
       </Suspense>
     </Canvas>
