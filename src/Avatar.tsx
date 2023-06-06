@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useAnimations } from "@react-three/drei";
 
 export type AvatarProps = {
-  model: "baptiste" | "thibault" | "han";
+  model: "baptiste" | "thibault" | "han" | "quentin" | "laureen" | "hugo";
   animation?:
     | "capoeira"
     | "flair"

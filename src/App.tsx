@@ -31,27 +31,50 @@ export default function App() {
   const [cameraState, setCameraState] = useLocalStorage<CameraState>("camera", {
     position: [3, 10, 12],
   });
-  const positions = useControls("Positions", {
-    Baptiste: [1, 0, -1],
-    Thibault: [-1, 0, -1],
-    Han: [0, 0, 0],
-    Floor: [0, 0, 0],
-    DiscoBall: [0, 3, 0],
-  });
-  const animations = useControls("Animations", {
-    Baptiste: {
-      value: "thriller",
-      options: ANIMATIONS,
+  const positions = useControls(
+    "Positions",
+    {
+      Baptiste: [1, 0, 1],
+      Thibault: [-1, 0, -1],
+      Han: [0, 0, 0],
+      Quentin: [1, 0, -1],
+      Laureen: [-1, 0, 1],
+      Hugo: [-2, 0, 0],
+      Floor: [0, 0, 0],
+      DiscoBall: [0, 3, 0],
     },
-    Thibault: {
-      value: "hip-hop-dancing",
-      options: ANIMATIONS,
+    { collapsed: true }
+  );
+  const animations = useControls(
+    "Animations",
+    {
+      Baptiste: {
+        value: "hip-hop-dancing",
+        options: ANIMATIONS,
+      },
+      Thibault: {
+        value: "hip-hop-dancing",
+        options: ANIMATIONS,
+      },
+      Han: {
+        value: "silly-dancing",
+        options: ANIMATIONS,
+      },
+      Quentin: {
+        value: "silly-dancing",
+        options: ANIMATIONS,
+      },
+      Laureen: {
+        value: "silly-dancing",
+        options: ANIMATIONS,
+      },
+      Hugo: {
+        value: "silly-dancing",
+        options: ANIMATIONS,
+      },
     },
-    Han: {
-      value: "silly-dancing",
-      options: ANIMATIONS,
-    },
-  });
+    { collapsed: true }
+  );
 
   return (
     <Canvas camera={{ fov: 30, ...cameraState }}>
@@ -73,6 +96,24 @@ export default function App() {
           model="thibault"
           position={positions.Thibault}
           animation={animations.Thibault as AvatarProps["animation"]}
+        />
+        <Avatar
+          key={animations.Quentin}
+          model="quentin"
+          position={positions.Quentin}
+          animation={animations.Quentin as AvatarProps["animation"]}
+        />
+        <Avatar
+          key={animations.Laureen}
+          model="laureen"
+          position={positions.Laureen}
+          animation={animations.Laureen as AvatarProps["animation"]}
+        />
+        <Avatar
+          key={animations.Hugo}
+          model="hugo"
+          position={positions.Hugo}
+          animation={animations.Hugo as AvatarProps["animation"]}
         />
         <Scene position={positions.Floor} />
         <DiscoBall position={positions.DiscoBall} />
