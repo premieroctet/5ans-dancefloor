@@ -40,6 +40,7 @@ export default function App() {
       Quentin: [1, 0, -1],
       Laureen: [-1, 0, 1],
       Hugo: [-2, 0, 0],
+      Ariel: [2, 0, 0],
       Floor: [0, 0, 0],
       DiscoBall: [0, 3, 0],
     },
@@ -61,14 +62,18 @@ export default function App() {
         options: ANIMATIONS,
       },
       Quentin: {
-        value: "silly-dancing",
+        value: "hip-hop-dancing",
         options: ANIMATIONS,
       },
       Laureen: {
-        value: "silly-dancing",
+        value: "hip-hop-dancing",
         options: ANIMATIONS,
       },
       Hugo: {
+        value: "silly-dancing",
+        options: ANIMATIONS,
+      },
+      Ariel: {
         value: "silly-dancing",
         options: ANIMATIONS,
       },
@@ -114,6 +119,12 @@ export default function App() {
           model="hugo"
           position={positions.Hugo}
           animation={animations.Hugo as AvatarProps["animation"]}
+        />
+        <Avatar
+          key={animations.Ariel}
+          model="ariel"
+          position={positions.Ariel}
+          animation={animations.Ariel as AvatarProps["animation"]}
         />
         <Scene position={positions.Floor} />
         <DiscoBall position={positions.DiscoBall} />
