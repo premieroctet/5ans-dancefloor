@@ -4,16 +4,16 @@ import App from "./routes/App";
 import Config from "./routes/Config";
 import "./index.css";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
+const router = createHashRouter([
   {
     path: "config",
     element: <Config />,
+  },
+  {
+    path: "/",
+    element: <App />,
   },
 ]);
 
