@@ -1,35 +1,38 @@
-import { GroupProps, useLoader } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GroupProps, useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { useAnimations } from "@react-three/drei";
+import { useEffect } from "react";
 // @ts-expect-error
-import { useAnimations } from '@react-three/drei';
-import { useEffect } from 'react';
-import { FBXLoader } from 'three/addons/loaders/FBXLoader';
+import { FBXLoader } from "three/addons/loaders/FBXLoader";
 
 export type AvatarProps = {
   model:
-    | 'baptiste'
-    | 'thibault'
-    | 'han'
-    | 'quentin'
-    | 'laureen'
-    | 'hugo'
-    | 'ariel';
+    | "baptiste"
+    | "thibault"
+    | "han"
+    | "quentin"
+    | "laureen"
+    | "hugo"
+    | "ariel"
+    | "colin"
+    | "vincent"
+    | "lucie";
   animation?:
-    | 'capoeira'
-    | 'flair'
-    | 'hip-hop-dancing'
-    | 'robot-hip-hop'
-    | 'silly-dancing'
-    | 'thriller'
-    | 'twerk'
-    | 'ymca'
-    | 'samba'
-    | 'macarena';
+    | "capoeira"
+    | "flair"
+    | "hip-hop-dancing"
+    | "robot-hip-hop"
+    | "silly-dancing"
+    | "thriller"
+    | "twerk"
+    | "ymca"
+    | "samba"
+    | "macarena";
 } & GroupProps;
 
 export default function Avatar({
   model,
-  animation = 'silly-dancing',
+  animation = "silly-dancing",
   ...props
 }: AvatarProps) {
   const obj = useLoader(GLTFLoader, `models/${model}.glb`);
