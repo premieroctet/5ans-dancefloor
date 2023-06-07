@@ -4,35 +4,39 @@
  * - Animations on https://www.mixamo.com/
  * - https://github.com/resonantdoghouse/threejs-dance
  */
-import { Environment, OrbitControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
-import { useControls } from "leva";
-import { Suspense } from "react";
-import { Vector3Tuple } from "three";
-import { useLocalStorage } from "usehooks-ts";
-import "./App.css";
-import Avatar, { AvatarProps } from "./Avatar";
-import DiscoBall from "./DiscoBall";
-import Scene from "./Scene";
+import { Environment, OrbitControls } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import { useControls } from 'leva';
+import { Suspense } from 'react';
+import { Vector3Tuple } from 'three';
+import { useLocalStorage } from 'usehooks-ts';
+import './App.css';
+import Avatar, { AvatarProps } from './Avatar';
+import DiscoBall from './DiscoBall';
+import Scene from './Scene';
 
 type CameraState = {
   position: Vector3Tuple;
 };
-const ANIMATIONS: AvatarProps["animation"][] = [
-  "capoeira",
-  "flair",
-  "hip-hop-dancing",
-  "robot-hip-hop",
-  "silly-dancing",
-  "thriller",
+const ANIMATIONS: AvatarProps['animation'][] = [
+  'capoeira',
+  'flair',
+  'hip-hop-dancing',
+  'robot-hip-hop',
+  'silly-dancing',
+  'thriller',
+  'twerk',
+  'ymca',
+  'samba',
+  'macarena',
 ];
 
 export default function App() {
-  const [cameraState, setCameraState] = useLocalStorage<CameraState>("camera", {
+  const [cameraState, setCameraState] = useLocalStorage<CameraState>('camera', {
     position: [3, 10, 12],
   });
   const positions = useControls(
-    "Positions",
+    'Positions',
     {
       Baptiste: [1, 0, 1],
       Thibault: [-1, 0, -1],
@@ -47,34 +51,34 @@ export default function App() {
     { collapsed: true }
   );
   const animations = useControls(
-    "Animations",
+    'Animations',
     {
       Baptiste: {
-        value: "hip-hop-dancing",
+        value: 'hip-hop-dancing',
         options: ANIMATIONS,
       },
       Thibault: {
-        value: "hip-hop-dancing",
+        value: 'hip-hop-dancing',
         options: ANIMATIONS,
       },
       Han: {
-        value: "silly-dancing",
+        value: 'silly-dancing',
         options: ANIMATIONS,
       },
       Quentin: {
-        value: "hip-hop-dancing",
+        value: 'hip-hop-dancing',
         options: ANIMATIONS,
       },
       Laureen: {
-        value: "hip-hop-dancing",
+        value: 'hip-hop-dancing',
         options: ANIMATIONS,
       },
       Hugo: {
-        value: "silly-dancing",
+        value: 'silly-dancing',
         options: ANIMATIONS,
       },
       Ariel: {
-        value: "silly-dancing",
+        value: 'silly-dancing',
         options: ANIMATIONS,
       },
     },
@@ -86,45 +90,45 @@ export default function App() {
       <Suspense fallback={null}>
         <Avatar
           key={animations.Han}
-          model="han"
+          model='han'
           position={positions.Han}
-          animation={animations.Han as AvatarProps["animation"]}
+          animation={animations.Han as AvatarProps['animation']}
         />
         <Avatar
           key={animations.Baptiste}
-          model="baptiste"
+          model='baptiste'
           position={positions.Baptiste}
-          animation={animations.Baptiste as AvatarProps["animation"]}
+          animation={animations.Baptiste as AvatarProps['animation']}
         />
         <Avatar
           key={animations.Thibault}
-          model="thibault"
+          model='thibault'
           position={positions.Thibault}
-          animation={animations.Thibault as AvatarProps["animation"]}
+          animation={animations.Thibault as AvatarProps['animation']}
         />
         <Avatar
           key={animations.Quentin}
-          model="quentin"
+          model='quentin'
           position={positions.Quentin}
-          animation={animations.Quentin as AvatarProps["animation"]}
+          animation={animations.Quentin as AvatarProps['animation']}
         />
         <Avatar
           key={animations.Laureen}
-          model="laureen"
+          model='laureen'
           position={positions.Laureen}
-          animation={animations.Laureen as AvatarProps["animation"]}
+          animation={animations.Laureen as AvatarProps['animation']}
         />
         <Avatar
           key={animations.Hugo}
-          model="hugo"
+          model='hugo'
           position={positions.Hugo}
-          animation={animations.Hugo as AvatarProps["animation"]}
+          animation={animations.Hugo as AvatarProps['animation']}
         />
         <Avatar
           key={animations.Ariel}
-          model="ariel"
+          model='ariel'
           position={positions.Ariel}
-          animation={animations.Ariel as AvatarProps["animation"]}
+          animation={animations.Ariel as AvatarProps['animation']}
         />
         <Scene position={positions.Floor} />
         <DiscoBall position={positions.DiscoBall} />
@@ -139,7 +143,7 @@ export default function App() {
             }
           }}
         />
-        <Environment preset="sunset" background />
+        <Environment preset='sunset' background />
       </Suspense>
     </Canvas>
   );
