@@ -1,0 +1,34 @@
+{
+  "team": {
+    "Baptiste": {
+      "animation": "hip-hop-dancing"
+    },
+    "Thibault": {
+      "animation": "hip-hop-dancing"
+    },
+    "Han": {
+      "animation": "silly-dancing"
+    },
+    "Quentin": {
+      "animation": "hip-hop-dancing"
+    },
+    "Laureen": {
+      "animation": "hip-hop-dancing"
+    },
+    "Hugo": {
+      "animation": "silly-dancing"
+    },
+    "Ariel": {
+      "animation": "silly-dancing"
+    },
+    "Colin": {
+      "animation": "twerk"
+    },
+    "Vincent": {
+      "animation": "twerk"
+    },
+    "Lucie": {
+      "animation": "ymca"
+    }
+  }
+}
