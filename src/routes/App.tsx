@@ -14,24 +14,12 @@ import Avatar, { AvatarProps } from "../components/Avatar";
 import DiscoBall from "../components/DiscoBall";
 import Scene from "../components/Scene";
 import useAnimationsDatabase from "../hooks/useAnimationsDatabase";
+import { MEMBERS } from "../lib/members";
 import "./App.css";
 
 type CameraState = {
   position: Vector3Tuple;
 };
-
-const MEMBERS = [
-  "Baptiste",
-  "Thibault",
-  "Han",
-  "Quentin",
-  "Laureen",
-  "Hugo",
-  "Ariel",
-  "Colin",
-  "Vincent",
-  "Lucie",
-];
 
 export default function App() {
   const [cameraState, setCameraState] = useLocalStorage<CameraState>("camera", {
@@ -55,7 +43,9 @@ export default function App() {
     },
     { collapsed: true }
   );
-  const animations = useAnimationsDatabase({ collapsed: true });
+  const { animations } = useAnimationsDatabase({
+    collapsed: true,
+  });
 
   return (
     <Canvas camera={{ fov: 30, ...cameraState }}>
@@ -78,14 +68,12 @@ export default function App() {
           onChange={(e) => {
             if (e) {
               setCameraState({
-                position: Object.values(
-                  e.target.object.position
-                ) as Vector3Tuple,
+                position: Object.values(e.target.object.position) as Vector3Tuple,
               });
             }
           }}
         />
-        <Environment preset="sunset" background />
+        <Environment preset='sunset' background />
       </Suspense>
     </Canvas>
   );
