@@ -22,6 +22,10 @@ type CameraState = {
 };
 
 export default function App() {
+  const url = new URL(window.location.href);
+  const featureFlags = {
+    dancefloor: url.searchParams.has("dancefloor"),
+  };
   const [cameraState, setCameraState] = useLocalStorage<CameraState>("camera", {
     position: [3, 10, 12],
   });
@@ -66,8 +70,9 @@ export default function App() {
     <Canvas camera={{ fov: 30, ...cameraState }} style={{ backgroundColor: "black" }}>
       <meshBasicMaterial color='black' wireframe />
       <Suspense fallback={null}>
-        {MEMBERS.map((member) => (
+        {MEMBERS.map((member, index) => (
           <Avatar
+            index={index}
             // @ts-expect-error
             key={`${member}-${animations[member]}`}
             // @ts-expect-error
@@ -79,10 +84,11 @@ export default function App() {
           />
         ))}
         {/* @ts-expect-error */}
-        <Scene position={positions.Floor} />
+        {featureFlags.dancefloor && <Scene position={positions.Floor} />}
         {/* @ts-expect-error */}
         <DiscoBall position={positions.DiscoBall} />
         <OrbitControls
+          autoRotate
           onChange={(e) => {
             if (e) {
               setCameraState({

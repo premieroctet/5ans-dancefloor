@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { FBXLoader } from "three/addons/loaders/FBXLoader";
 
 export type AvatarProps = {
+  index: number;
   model: "baptiste" | "thibault" | "han" | "quentin" | "laureen" | "hugo" | "ariel" | "colin" | "vincent" | "lucie";
   animation?:
     | "capoeira"
@@ -20,7 +21,7 @@ export type AvatarProps = {
     | "macarena";
 } & GroupProps;
 
-export default function Avatar({ model, animation = "silly-dancing", ...props }: AvatarProps) {
+export default function Avatar({ model, animation = "silly-dancing", index, ...props }: AvatarProps) {
   const obj = useLoader(GLTFLoader, `models/${model}.glb`);
 
   const animationObject = useLoader(FBXLoader, `animations/${animation}.fbx`);
@@ -32,7 +33,7 @@ export default function Avatar({ model, animation = "silly-dancing", ...props }:
 
   return (
     // @ts-expect-error
-    <group {...props} ref={ref}>
+    <group {...props} ref={ref} rotation-y={Math.PI * index * 0.1}>
       <primitive object={obj.scene} />
     </group>
   );
