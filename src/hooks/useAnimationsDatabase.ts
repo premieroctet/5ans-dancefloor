@@ -3,7 +3,6 @@ import { useControls } from "leva";
 import { useEffect } from "react";
 import { ANIMATIONS } from "../lib/animations";
 import { database } from "../lib/firebase";
-import { MEMBERS } from "../lib/members";
 
 const onChangeHandler = (value: any, path: string, context: any) => {
   const member = path.split(".")[1];
@@ -16,7 +15,7 @@ const onChangeHandler = (value: any, path: string, context: any) => {
   }
 };
 
-export default function useAnimationsDatabase({ collapsed }: { collapsed: boolean }) {
+export default function useAnimationsDatabase({ collapsed, render = false }: { collapsed: boolean; render?: boolean }) {
   const [animations, set] = useControls(
     "Animations",
     () => ({
@@ -71,34 +70,34 @@ export default function useAnimationsDatabase({ collapsed }: { collapsed: boolea
         transient: false,
       },
     }),
-    { collapsed }
+    { collapsed, render: () => render }
   );
 
-  useControls("Choreography", () => ({
-    Team: {
-      options: ANIMATIONS,
-      onChange: (value: any, path: string, context: any) => {
-        if (!context.initial) {
-          let newState: object = {};
-          let newDBState: object = {};
+  // useControls("Choreography", () => ({
+  //   Team: {
+  //     options: ANIMATIONS,
+  //     onChange: (value: any, path: string, context: any) => {
+  //       if (!context.initial) {
+  //         let newState: object = {};
+  //         let newDBState: object = {};
 
-          MEMBERS.forEach((member) => {
-            newState = {
-              ...newState,
-              [member]: value,
-            };
-            newDBState = {
-              ...newDBState,
-              [`team/${member}`]: { animation: value },
-            };
-          });
-          set(newState);
-          update(ref(database), newState);
-        }
-      },
-      transient: false,
-    },
-  }));
+  //         MEMBERS.forEach((member) => {
+  //           newState = {
+  //             ...newState,
+  //             [member]: value,
+  //           };
+  //           newDBState = {
+  //             ...newDBState,
+  //             [`team/${member}`]: { animation: value },
+  //           };
+  //         });
+  //         set(newState);
+  //         update(ref(database), newState);
+  //       }
+  //     },
+  //     transient: false,
+  //   },
+  // }));
 
   // Set local state from firebase
   useEffect(() => {
@@ -116,5 +115,5 @@ export default function useAnimationsDatabase({ collapsed }: { collapsed: boolea
     });
   }, []);
 
-  return { animations };
+  return { animations, set };
 }

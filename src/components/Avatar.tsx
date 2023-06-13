@@ -6,17 +6,7 @@ import { useEffect } from "react";
 import { FBXLoader } from "three/addons/loaders/FBXLoader";
 
 export type AvatarProps = {
-  model:
-    | "baptiste"
-    | "thibault"
-    | "han"
-    | "quentin"
-    | "laureen"
-    | "hugo"
-    | "ariel"
-    | "colin"
-    | "vincent"
-    | "lucie";
+  model: "baptiste" | "thibault" | "han" | "quentin" | "laureen" | "hugo" | "ariel" | "colin" | "vincent" | "lucie";
   animation?:
     | "capoeira"
     | "flair"
@@ -30,11 +20,7 @@ export type AvatarProps = {
     | "macarena";
 } & GroupProps;
 
-export default function Avatar({
-  model,
-  animation = "silly-dancing",
-  ...props
-}: AvatarProps) {
+export default function Avatar({ model, animation = "silly-dancing", ...props }: AvatarProps) {
   const obj = useLoader(GLTFLoader, `models/${model}.glb`);
 
   const animationObject = useLoader(FBXLoader, `animations/${animation}.fbx`);
