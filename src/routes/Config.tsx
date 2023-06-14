@@ -1,5 +1,6 @@
 import useAnimationsDatabase from "../hooks/useAnimationsDatabase";
 import { ANIMATIONS } from "../lib/animations";
+import { MEMBERS } from "../lib/members";
 import "./Config.css";
 
 export default function Config() {
@@ -22,6 +23,22 @@ export default function Config() {
           </li>
         );
       })}
+      <li>
+        <section>
+          <h2>All</h2>
+          <select
+            defaultValue={undefined}
+            onChange={(e) => {
+              const animation = e.target.value;
+              MEMBERS.forEach((member) => set({ [member]: animation }));
+            }}
+          >
+            {ANIMATIONS.map((value) => (
+              <option key={value}>{value}</option>
+            ))}
+          </select>
+        </section>
+      </li>
     </ul>
   );
 }

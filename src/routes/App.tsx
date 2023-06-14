@@ -26,6 +26,7 @@ export default function App() {
   const featureFlags = {
     dancefloor: url.searchParams.has("dancefloor"),
   };
+  const autoRotateSpeed = url.searchParams.has("autoRotateSpeed") ? Number(url.searchParams.get("autoRotateSpeed")) : 1;
   const [cameraState, setCameraState] = useLocalStorage<CameraState>("camera", {
     position: [3, 10, 12],
   });
@@ -89,6 +90,7 @@ export default function App() {
         <DiscoBall position={positions.DiscoBall} />
         <OrbitControls
           autoRotate
+          autoRotateSpeed={autoRotateSpeed}
           onChange={(e) => {
             if (e) {
               setCameraState({
