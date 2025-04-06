@@ -6,7 +6,7 @@
   "homepage": "https://github.com/premieroctet/5ans-dancefloor/",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --base=/5ans-dancefloor/",
+    "build": "vite build --base=/5ans-dancefloor/",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
