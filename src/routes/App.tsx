@@ -4,10 +4,10 @@
  * - Animations on https://www.mixamo.com/
  * - https://github.com/resonantdoghouse/threejs-dance
  */
-import { Environment, OrbitControls, Stars } from "@react-three/drei";
+import { Environment, OrbitControls, Stage, Stars } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 // import { useControls } from "leva";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Vector3Tuple } from "three";
 import { useLocalStorage } from "usehooks-ts";
 import Avatar, { AvatarProps } from "../components/Avatar";
@@ -16,6 +16,7 @@ import Scene from "../components/Scene";
 import useAnimationsDatabase from "../hooks/useAnimationsDatabase";
 import { MEMBERS } from "../lib/members";
 import "./App.css";
+import { useControls } from "leva";
 
 type CameraState = {
   position: Vector3Tuple;
@@ -27,8 +28,8 @@ export default function App() {
     dancefloor: url.searchParams.has("dancefloor"),
   };
   const autoRotateSpeed = url.searchParams.has("autoRotateSpeed") ? Number(url.searchParams.get("autoRotateSpeed")) : 1;
-  const [cameraState, setCameraState] = useLocalStorage<CameraState>("camera", {
-    position: [3, 10, 12],
+  const [cameraState, setCameraState] = useState<CameraState>({
+    position: [3, 2, 5],
   });
   const positions = {
     Baptiste: [1, 0, 1],
@@ -85,7 +86,7 @@ export default function App() {
           />
         ))}
         {/* @ts-expect-error */}
-        {featureFlags.dancefloor && <Scene position={positions.Floor} />}
+        <Scene position={positions.Floor} />
         {/* @ts-expect-error */}
         <DiscoBall position={positions.DiscoBall} />
         <OrbitControls
@@ -100,7 +101,7 @@ export default function App() {
           }}
         />
         <Stars />
-        <Environment preset='sunset' />
+        <Stage environment={{ files: "venice_sunset_1k.hdr" }} />
       </Suspense>
     </Canvas>
   );
