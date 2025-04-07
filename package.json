@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build --base=/5ans-dancefloor/",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "slides": "npx @marp-team/marp-cli@latest -w public/slides/slides.md --html"
   },
   "dependencies": {
     "@react-three/drei": "^10.0.6",
