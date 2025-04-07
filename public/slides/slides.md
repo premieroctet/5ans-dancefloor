@@ -2,14 +2,71 @@
 theme: default
 _class: lead
 paginate: true
-backgroundColor: #fff
+backgroundColor: rgb(241, 242, 255)
+marp: true
+footer: <img src="logo.png" width="120" id="logo" />
+style: |
+  section {
+    background: white;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: black;
+    border-bottom: 10px solid #5057f2;
+  }
+  h1, h2 {
+    color: black;
+    font-weight: 700;
+  }
+  h1 {
+    font-size: 2.5em;
+  }
+  h2 {
+    font-size: 2em;
+  }
+  code {
+    background: white;
+  }
+  pre {
+    background: white;
+  }
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  ul li {
+    position: relative;
+    padding-left: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.6;
+  }
+  ul li:before {
+    content: "•";
+    color: #5057f2;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+  }
+  a {
+    color: #5057f2;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  strong {
+    color: #5057f2;
+  }
+  footer {
+    color: #666;
+  }
+  #logo {
+    position: relative;
+    z-index: 0;
+  }
+  marp-pre {
+    position: relative;
+    z-index: 1;
+  }
 ---
-
-<style>
-section {
-  background: yellow;
-}
-</style>
 
 # LT : comment j'ai fait twerker mes collègues sur un dancefloor avec React
 
@@ -17,23 +74,25 @@ section {
 
 ## Contexte
 
-5 ans de Premier Octet
+**5 ans** de Premier Octet
 
-Grosse soirée avec activités et ambiance
+Grosse soirée avec plusieurs activités et ambiance
+
+Concert des Daft Punk (les faux), Photobooth, dancefloor
 
 ---
 
 ## Recherche
 
-- Comment modéliser mes collègues ?
-- Comment les animer ?
-- Comment permettre le contrôle des animations en temps réel ?
+- Comment **modéliser** en 3D mes collègues ?
+- Comment les **animer** ?
+- Comment permettre le **contrôle** des animations en temps réel ?
 
 ---
 
 ## Stack Technique
 
-- React + Three.js (react-three/fiber)
+- React + [Three.js](https://threejs.org/) ([react-three/fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction))
 - Firebase Realtime Database
 - Vite
 - TypeScript
@@ -42,9 +101,7 @@ Grosse soirée avec activités et ambiance
 
 ## Modélisation
 
-Avaturn pour la création des modèles 3D
-
-Avantages :
+[Avaturn](https://avaturn.me) pour la création des modèles 3D
 
 - Création rapide d'avatars personnalisés
 - Export en format GLB compatible Three.js
@@ -59,7 +116,7 @@ Avantages :
 <Canvas camera={{ fov: 30 }}>
   <Suspense fallback={null}>
     {MEMBERS.map((member, index) => (
-      <Avatar model={member.toLowerCase()} animation={animations[member]} position={positions[member]} />
+      <Avatar model={member} animation={animations[member]} position={positions[member]} />
     ))}
     <Scene />
     <DiscoBall />
@@ -95,9 +152,7 @@ export default function Avatar({ model, animation = "silly-dancing", index, ...p
 
 ## Animation
 
-Mixamo pour les animations
-
-Caractéristiques :
+[Mixamo](https://www.mixamo.com) pour les animations
 
 - Bibliothèque riche d'animations
 - Format FBX compatible
@@ -106,45 +161,51 @@ Caractéristiques :
 
 ---
 
-## Gestion des Animations en Temps Réel
+## Contrôles
 
-```typescript
-export default function useAnimationsDatabase() {
-  // Interface de contrôle pour chaque membre
-  const [animations, set] = useControls("Animations", {
-    Baptiste: { options: ANIMATIONS },
-    // ...
-  });
+- Debug avec [Leva](https://github.com/pmndrs/leva)
+- Contrôle individuel des animations
+- Persistence et temps réel avec Firebase
+- URL params pour customisation si nécessaire pendant la soirée
+  - `?dancefloor` - Active le dancefloor
+  - `?autoRotateSpeed` - Vitesse de rotation
 
-  // Synchronisation Firebase
-  useEffect(() => {
-    const team = ref(database, "team");
-    return onValue(team, (snapshot) => {
-      const data = snapshot.val();
-      if (snapshot.exists()) {
-        Object.entries(data).map(([member, value]) => {
-          set({ [member]: value.animation });
-        });
-      }
-    });
-  }, []);
+---
 
-  return { animations, set };
-}
+## Gestion des animations (1/2)
+
+```tsx
+import { onValue, ref, update } from "firebase/database";
+import { useControls } from "leva";
+
+const [animations, set] = useControls("Animations", {
+  Baptiste: { options: ANIMATIONS },
+  Thibault: { options: ANIMATIONS },
+  // ...
+});
 ```
 
 ---
 
-## Contrôles
+## Gestion des animations (2/2)
 
-Firebase + UI config avec Leva
+```tsx
+import { onValue, ref, update } from "firebase/database";
 
-Features :
+// Synchronisation Firebase
+useEffect(() => {
+  const team = ref(database, "team");
 
-- Contrôle individuel des animations
-- Synchronisation en temps réel
-- Interface utilisateur intuitive
-- Persistance des états
+  return onValue(team, (snapshot) => {
+    const data = snapshot.val();
+    if (snapshot.exists()) {
+      Object.entries(data).map(([member, value]) => {
+        set({ [member]: value.animation });
+      });
+    }
+  });
+}, []);
+```
 
 ---
 
@@ -152,8 +213,11 @@ Features :
 
 Éléments visuels :
 
-- Éclairage dynamique avec HDR (venice_sunset)
 - Boule disco rotative
+
+[@react-three/drei](https://github.com/pmndrs/drei) :
+
+- Éclairage dynamique avec un environnement
 - Fond étoilé avec `<Stars />`
 - Caméra orbitale avec auto-rotation
 
@@ -162,12 +226,6 @@ Features :
 ## Démo
 
 [premieroctet.com/dancefloor](https://www.premieroctet.com/dancefloor)
-
-Features démo :
-
-- URL params pour customisation
-  - ?dancefloor - Active le dancefloor
-  - ?autoRotateSpeed - Vitesse de rotation
 
 ---
 
@@ -179,3 +237,14 @@ section {
 </style>
 
 <iframe src="https://www.premieroctet.com/dancefloor" width="100%" height="100%"></iframe>
+
+---
+
+<style scoped>
+section {
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<iframe src="https://premieroctet.github.io/5ans-dancefloor/#/config" width="100%" height="100%"></iframe>
