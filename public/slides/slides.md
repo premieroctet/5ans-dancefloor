@@ -66,6 +66,13 @@ style: |
     position: relative;
     z-index: 1;
   }
+  .columns {
+    display: flex;
+    gap: 2em;
+  }
+  .columns > div {
+    flex: 1;
+  }
 ---
 
 # LT : comment j'ai fait twerker mes collègues sur un dancefloor avec React
@@ -93,9 +100,9 @@ Concert des Daft Punk (les faux), Photobooth, dancefloor
 ## Stack Technique
 
 - React + [Three.js](https://threejs.org/) ([react-three/fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction))
-- Firebase Realtime Database
 - Vite
 - TypeScript
+- Firebase Realtime Database
 
 ---
 
@@ -103,9 +110,11 @@ Concert des Daft Punk (les faux), Photobooth, dancefloor
 
 [Avaturn](https://avaturn.me) pour la création des modèles 3D
 
-- Création rapide d'avatars personnalisés
+- Avatar 3D personnalisé
+- Généré à partir de 3 photos
 - Export en format GLB compatible Three.js
-- Résultats réalistes
+
+![bg right](images/avaturn.png)
 
 ---
 
@@ -132,7 +141,6 @@ Concert des Daft Punk (les faux), Photobooth, dancefloor
 ```tsx
 export default function Avatar({ model, animation = "silly-dancing", index, ...props }: AvatarProps) {
   const obj = useLoader(GLTFLoader, `models/${model}.glb`);
-
   const animationObject = useLoader(FBXLoader, `animations/${animation}.fbx`);
   const { ref, actions, names } = useAnimations(animationObject.animations);
 
@@ -150,14 +158,26 @@ export default function Avatar({ model, animation = "silly-dancing", index, ...p
 
 ---
 
+<div class="columns">
+
+<div>
+
 ## Animation
 
 [Mixamo](https://www.mixamo.com) pour les animations
 
-- Bibliothèque riche d'animations
-- Format FBX compatible
+- Bibliothèque d'animations par Adobe
+- Export FBX
 - Animations fluides et naturelles
-- Facile à intégrer avec Three.js
+- Intégrable avec Three.js
+
+</div>
+
+<div>
+  <video src="videos/mixamo.webm" width="100%" height="100%" autoplay muted loop></video>
+</div>
+
+</div>
 
 ---
 

@@ -31,39 +31,39 @@ export default function App() {
   const [cameraState, setCameraState] = useState<CameraState>({
     position: [3, 2, 5],
   });
-  const positions = {
-    Baptiste: [1, 0, 1],
-    Thibault: [-1, 0, -1],
-    Han: [0, 0, 0],
-    Quentin: [1, 0, -1],
-    Laureen: [-1, 0, 1],
-    Hugo: [-2, 0, 0],
-    Ariel: [2, 0, 0],
-    Colin: [-2, 0, 2],
-    Vincent: [2, 0, 2],
-    Lucie: [0, 0, 2],
-    Floor: [0, 0, 0],
-    DiscoBall: [0, 3, 0],
-  };
+  // const positions = {
+  //   Baptiste: [1, 0, 1],
+  //   Thibault: [-1, 0, -1],
+  //   Han: [0, 0, 0],
+  //   Quentin: [1, 0, -1],
+  //   Laureen: [-1, 0, 1],
+  //   Hugo: [-2, 0, 0],
+  //   Ariel: [2, 0, 0],
+  //   Colin: [-2, 0, 2],
+  //   Vincent: [2, 0, 2],
+  //   Lucie: [0, 0, 2],
+  //   Floor: [0, 0, 0],
+  //   DiscoBall: [0, 3, 0],
+  // };
   // Hide controls for the live scene
-  // const positions = useControls(
-  //   "Positions",
-  //   {
-  //     Baptiste: [1, 0, 1],
-  //     Thibault: [-1, 0, -1],
-  //     Han: [0, 0, 0],
-  //     Quentin: [1, 0, -1],
-  //     Laureen: [-1, 0, 1],
-  //     Hugo: [-2, 0, 0],
-  //     Ariel: [2, 0, 0],
-  //     Colin: [-2, 0, 2],
-  //     Vincent: [2, 0, 2],
-  //     Lucie: [0, 0, 2],
-  //     Floor: [0, 0, 0],
-  //     DiscoBall: [0, 3, 0],
-  //   },
-  //   { collapsed: true }
-  // );
+  const positions = useControls(
+    "Positions",
+    {
+      Baptiste: [1, 0, 1],
+      Thibault: [-1, 0, -1],
+      Han: [0, 0, 0],
+      Quentin: [1, 0, -1],
+      Laureen: [-1, 0, 1],
+      Hugo: [-2, 0, 0],
+      Ariel: [2, 0, 0],
+      Colin: [-2, 0, 2],
+      Vincent: [2, 0, 2],
+      Lucie: [0, 0, 2],
+      Floor: [0, 0, 0],
+      DiscoBall: [0, 3, 0],
+    },
+    { collapsed: true }
+  );
   const { animations } = useAnimationsDatabase({
     collapsed: true,
   });

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { ANIMATIONS } from "../lib/animations";
 import { database } from "../lib/firebase";
 
-const onChangeHandler = (value: any, path: string, context: any) => {
+const onChangeHandler = (value: string, path: string, context: any) => {
   const member = path.split(".")[1];
   if (!context.initial) {
     update(ref(database), {
@@ -73,32 +73,6 @@ export default function useAnimationsDatabase({ collapsed, render = false }: { c
     { collapsed, render: () => render }
   );
 
-  // useControls("Choreography", () => ({
-  //   Team: {
-  //     options: ANIMATIONS,
-  //     onChange: (value: any, path: string, context: any) => {
-  //       if (!context.initial) {
-  //         let newState: object = {};
-  //         let newDBState: object = {};
-
-  //         MEMBERS.forEach((member) => {
-  //           newState = {
-  //             ...newState,
-  //             [member]: value,
-  //           };
-  //           newDBState = {
-  //             ...newDBState,
-  //             [`team/${member}`]: { animation: value },
-  //           };
-  //         });
-  //         set(newState);
-  //         update(ref(database), newState);
-  //       }
-  //     },
-  //     transient: false,
-  //   },
-  // }));
-
   // Set local state from firebase
   useEffect(() => {
     const team = ref(database, "team");
@@ -108,7 +82,7 @@ export default function useAnimationsDatabase({ collapsed, render = false }: { c
 
       if (snapshot.exists()) {
         Object.entries(data).map(([member, value]) => {
-          // @ts-expect-error
+          // @ts-expect-error untyped Firebase data
           set({ [member]: value.animation });
         });
       }
