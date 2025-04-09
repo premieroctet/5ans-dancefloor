@@ -77,6 +77,8 @@ style: |
 
 # LT : comment j'ai fait twerker mes collègues sur un dancefloor avec React
 
+![bg opacity:.6](images/intro.png)
+
 ---
 
 ## Contexte
@@ -86,6 +88,8 @@ style: |
 Grosse soirée avec plusieurs activités et ambiance
 
 Concert des Daft Punk (les faux), Photobooth, dancefloor
+
+![bg contain right](https://multipass.premieroctet.com/_next/image?url=%2Flogo.jpg&w=1200&q=75)
 
 ---
 
@@ -187,8 +191,12 @@ export default function Avatar({ model, animation = "silly-dancing", index, ...p
 - Contrôle individuel des animations
 - Persistence et temps réel avec Firebase
 - URL params pour customisation si nécessaire pendant la soirée
-  - `?dancefloor` - Active le dancefloor
-  - `?autoRotateSpeed` - Vitesse de rotation
+
+  ```
+  ?dancefloor&autoRotateSpeed=0.1
+  ```
+
+![bg 50% right](images/leva.png)
 
 ---
 
@@ -233,13 +241,13 @@ useEffect(() => {
 
 Éléments visuels :
 
-- Boule disco rotative
+- Boule disco rotative, fichier 3D sur [sketchfab.com](https://sketchfab.com)
 
 [@react-three/drei](https://github.com/pmndrs/drei) :
 
-- Éclairage dynamique avec un environnement
+- Éclairage dynamique `<Stage />`
 - Fond étoilé avec `<Stars />`
-- Caméra orbitale avec auto-rotation
+- Caméra orbitale avec auto-rotation `<OrbitControls />`
 
 ---
 
@@ -268,3 +276,11 @@ section {
 </style>
 
 <iframe src="https://premieroctet.github.io/5ans-dancefloor/#/config" width="100%" height="100%"></iframe>
+
+---
+
+## Merci
+
+![bg opacity:.6 blur:1px](images/end.png)
+
+---
