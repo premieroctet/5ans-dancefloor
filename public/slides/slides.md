@@ -283,4 +283,3 @@ section {
 
 ![bg opacity:.6 blur:1px](images/end.png)
 
----
